@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +29,11 @@ public class Booking extends BaseModel{
     private BookingStatus bookingStatus = BookingStatus.PENDING;
 
     @Column(unique = true)
-    private String idempotencyKey;
+    private UUID idempotencyKey;
+
+    private LocalDate checkInDate;
+
+    private LocalDate checkOutDate;
 
     public enum BookingStatus {
         PENDING,

@@ -12,12 +12,12 @@ public class CreateBookingRequest {
     @NotNull(message = "Airbnb Id is required")
     private UUID airbnbId;
 
-    @NotNull(message = "user Id is required")
+    @NotNull(message = "User Id is required")
     private UUID userId;
 
-    @NotNull(message = "start Date is required")
-    private LocalDate startDate;
+    @NotNull(message = "Check in Date is required")
+    private LocalDate checkInDate;
 
-    @NotNull(message = "end Date is required")
-    private LocalDate endDate;
+    @NotNull(message = "Check out Date is required")
+    private LocalDate checkOutDate;
 }

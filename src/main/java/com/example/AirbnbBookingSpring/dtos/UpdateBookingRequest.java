@@ -12,7 +12,7 @@ public class UpdateBookingRequest {
     private UUID bookingId;
 
     @NotNull(message = "Idempotency key is required")
-    private String idempotencyKey;
+    private UUID idempotencyKey;
 
     @NotNull(message = "Booking status is required")
     private Booking.BookingStatus bookingStatus;

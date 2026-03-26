@@ -15,7 +15,7 @@ public interface BookingWriteRepository extends JpaRepository<Booking, UUID> {
 
     List<Booking> findByAirbnbId(UUID airbnbId);
 
-    Optional<Booking> findByIdempotencyKey(String idempotencyKey);
+    Optional<Booking> findByIdempotencyKey(UUID idempotencyKey);
 
 //     @Lock(LockModeType.PESSIMISTIC_WRITE)
 //     @Query("SELECT b FROM Booking b WHERE b.id = :id")

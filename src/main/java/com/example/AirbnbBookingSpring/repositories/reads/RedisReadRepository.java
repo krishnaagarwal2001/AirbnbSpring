@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RedisReadRepository {
     private static final String AIRBNB_KEY_PREFIX = "airbnb:";
-    private static final String BOOKING_KEY_PREFIX = "booking:";
+    public static final String BOOKING_KEY_PREFIX = "booking:";
     private static final String AVAILABILITY_KEY_PREFIX = "availability:";
 
     private final RedisTemplate<String,String> redisTemplate;
@@ -98,5 +98,36 @@ public class RedisReadRepository {
         }
     }
 
+    public BookingReadModel findBookingByIdempotencyKey(UUID idempotencyKey) {
+        Set<String>keys = redisTemplate.keys(BOOKING_KEY_PREFIX + "*");
 
+        if(keys.isEmpty() || keys == null){
+            return null;
+        }
+
+        return keys.stream()
+                .map(key -> {
+                    String value = redisTemplate.opsForValue().get(key);
+
+                    if(value == null){
+                        return null;
+                    }
+
+                    try {
+                        BookingReadModel bookingReadModel = objectMapper.readValue(value, BookingReadModel.class);
+
+                        if(idempotencyKey.equals(bookingReadModel.getIdempotencyKey())){
+                            return bookingReadModel;
+                        }else{
+                            return null;
+                        }
+                    }catch (JacksonException e) {
+                        throw new RuntimeException("Failed to parse Booking read model from Redis", e);
+                    }
+
+                })
+                .filter(booking -> booking != null)
+                .findFirst()
+                .orElse(null);
+    }
 }

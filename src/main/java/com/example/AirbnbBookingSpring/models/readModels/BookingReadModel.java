@@ -26,7 +26,7 @@ public class BookingReadModel extends BaseModel {
 
     private Booking.BookingStatus bookingStatus;
 
-    private String idempotencyKey;
+    private UUID idempotencyKey;
 
     private LocalDate checkInDate;
 
