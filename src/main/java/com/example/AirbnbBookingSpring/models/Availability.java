@@ -21,5 +21,5 @@ public class Availability extends BaseModel {
     private UUID bookingId; // null if available
 
     @Column(nullable = false)
-    private LocalDate Date;
+    private LocalDate date;
 }
