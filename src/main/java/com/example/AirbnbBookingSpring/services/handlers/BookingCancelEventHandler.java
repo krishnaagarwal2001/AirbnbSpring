@@ -32,10 +32,10 @@ public class BookingCancelEventHandler implements SagaEventHandler {
         try {
             Map<String, Object> payload = sagaEvent.getPayload();
 
-            UUID airbnbId = (UUID) payload.get("airbnbId");
+            UUID airbnbId = UUID.fromString((String) payload.get("airbnbId"));
 
-            LocalDate checkInDate = (LocalDate) payload.get("checkInDate");
-            LocalDate checkOutDate = (LocalDate) payload.get("checkOutDate");
+            LocalDate checkInDate = LocalDate.parse((String) payload.get("checkInDate"));
+            LocalDate checkOutDate = LocalDate.parse((String) payload.get("checkOutDate"));
 
             availabilityWriteRepository.updateBookingIdByAirbnbIdAndDateBetween(null, airbnbId, checkInDate,
                     checkOutDate);

@@ -12,14 +12,10 @@ public class SagaEventConsumer {
     
     @Scheduled(fixedDelay = 500)
     public void consumeEvents() {
-        try {
-            SagaEvent sagaEvent = eventConsumer.consume();
-            if (sagaEvent != null) {
-                sagaEventProcessor.processEvent(sagaEvent);
-            }
+        SagaEvent sagaEvent = eventConsumer.consume();
 
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to consume saga event", e);
+        if (sagaEvent != null) {
+            sagaEventProcessor.processEvent(sagaEvent);
         }
     }
 

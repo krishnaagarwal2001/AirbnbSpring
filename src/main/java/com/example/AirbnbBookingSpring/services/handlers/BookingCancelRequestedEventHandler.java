@@ -36,10 +36,11 @@ public class BookingCancelRequestedEventHandler implements SagaEventHandler {
         try {
             Map<String, Object> payload = sagaEvent.getPayload();
 
-            UUID bookingId = (UUID) payload.get("bookingId");
-            UUID airbnbId = (UUID) payload.get("airbnbId");
-            LocalDate checkInDate = (LocalDate) payload.get("checkInDate");
-            LocalDate checkOutDate = (LocalDate) payload.get("checkOutDate");
+            UUID bookingId = UUID.fromString((String) payload.get("bookingId"));
+            UUID airbnbId = UUID.fromString((String) payload.get("airbnbId"));
+
+            LocalDate checkInDate = LocalDate.parse((String) payload.get("checkInDate"));
+            LocalDate checkOutDate = LocalDate.parse((String) payload.get("checkOutDate"));
 
             Booking booking = bookingWriteRepository.findById(bookingId)
                     .orElseThrow(() -> new RuntimeException("Booking not found"));

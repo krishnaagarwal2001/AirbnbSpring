@@ -9,6 +9,7 @@ import com.example.AirbnbBookingSpring.saga.SagaEventPublisher;
 import com.example.AirbnbBookingSpring.saga.SagaEventType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.UUID;
 //updates booking status to confirmed
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookingConfirmRequestedEventHandler implements SagaEventHandler {
 
     private final BookingWriteRepository bookingWriteRepository;
@@ -36,11 +38,11 @@ public class BookingConfirmRequestedEventHandler implements SagaEventHandler {
         try {
             Map<String, Object> payload = sagaEvent.getPayload();
 
-            UUID bookingId = (UUID) payload.get("bookingId");
-            UUID airbnbId = (UUID) payload.get("airbnbId");
+            UUID bookingId = UUID.fromString((String) payload.get("bookingId"));
+            UUID airbnbId = UUID.fromString((String) payload.get("airbnbId"));
 
-            LocalDate checkInDate = (LocalDate) payload.get("checkInDate");
-            LocalDate checkOutDate = (LocalDate) payload.get("checkOutDate");
+            LocalDate checkInDate = LocalDate.parse((String) payload.get("checkInDate"));
+            LocalDate checkOutDate = LocalDate.parse((String) payload.get("checkOutDate"));
 
             Booking booking = bookingWriteRepository.findById(bookingId)
                     .orElseThrow(() -> new RuntimeException("Booking not found"));

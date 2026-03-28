@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface BookingWriteRepository extends JpaRepository<Booking, UUID> {
 
-    Optional<Booking> findById(UUID airbnbId);
+    Optional<Booking> findById(UUID bookingId);
 
     List<Booking> findByAirbnbId(UUID airbnbId);
 
