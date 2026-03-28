@@ -1,6 +1,7 @@
 package com.example.AirbnbBookingSpring.saga;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Slf4j
 public class RedisEventConsumer implements IEventConsumer {
-    private static final String SAGA_QUEUE = "saga:events";
+    @Value("${redis.saga.queue}")
+    private String sagaQueue;
 
     private final RedisTemplate<String, String> redisTemplate;
     private final ObjectMapper objectMapper;
@@ -20,7 +22,7 @@ public class RedisEventConsumer implements IEventConsumer {
     @Override
     public SagaEvent consume() {
         try {
-            String eventJson = redisTemplate.opsForList().leftPop(SAGA_QUEUE, 1, TimeUnit.SECONDS);
+            String eventJson = redisTemplate.opsForList().leftPop(sagaQueue, 1, TimeUnit.SECONDS);
             if (eventJson == null || eventJson.isEmpty()) {
                 return null;
             }
