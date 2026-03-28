@@ -21,6 +21,7 @@ public class BookingAdapter {
 
     public static BookingReadModel bookingToBookingReadModel(Booking booking){
         return BookingReadModel.builder()
+                .id(booking.getId())
                 .airbnbId(booking.getAirbnbId())
                 .userId(booking.getUserId())
                 .totalPrice(booking.getTotalPrice())
@@ -33,6 +34,7 @@ public class BookingAdapter {
 
     public static Booking bookingReadModelToBooking(BookingReadModel bookingReadModel){
         return Booking.builder()
+                .id(bookingReadModel.getId())
                 .userId(bookingReadModel.getUserId())
                 .airbnbId(bookingReadModel.getAirbnbId())
                 .totalPrice(bookingReadModel.getTotalPrice())
