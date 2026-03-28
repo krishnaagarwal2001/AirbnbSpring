@@ -81,7 +81,14 @@ public class BookingService implements IBookingService {
         Booking booking = idempotencyService.findBookingByIdempotencyKey(updateBookingRequest.getIdempotencyKey())
                 .orElseThrow(() -> new RuntimeException("Idempotency Key not found"));
 
-        if (booking.getBookingStatus() != Booking.BookingStatus.PENDING) {
+        Booking.BookingStatus bookingStatus = booking.getBookingStatus();
+        Booking.BookingStatus requestedStatus = updateBookingRequest.getBookingStatus();
+
+        if(bookingStatus.equals(requestedStatus)) {
+            return booking;
+        }
+
+        if (bookingStatus != Booking.BookingStatus.PENDING) {
             throw new RuntimeException("Booking is not pending");
         }
 
