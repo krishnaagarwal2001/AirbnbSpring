@@ -23,7 +23,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/users/**", "/api/v1/bookings/**").permitAll()
+                        .requestMatchers("/api/v1/users/**",
+                                "/api/v1/bookings/**",
+                                "/api/v1/airbnbs/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
